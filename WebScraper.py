@@ -3,6 +3,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 
+#keeps the bold and italics tags for further use
+def extract_text_with_tags(soup):
+    for tag in soup.find_all(True): 
+        if tag.name not in ['strong', 'em']:
+            tag.unwrap()  
+    return str(soup)
+
 #loads the driver and waits for it to load
 driver = webdriver.Firefox()
 driver.implicitly_wait(2)
@@ -15,19 +22,15 @@ html_version =  main_post.get_attribute('outerHTML')
 
 soup = BeautifulSoup(html_version, 'html.parser')
 
-#keeps the bold and italics tags for further use
-def extract_text_with_tags(soup):
-    for tag in soup.find_all(True): 
-        if tag.name not in ['strong', 'em']:
-            tag.unwrap()  
-    return str(soup)
-
 
 rich_text = extract_text_with_tags(soup)
 
-print(rich_text)
-
-
-
 #exits the driver
 driver.close()
+
+# Dumps the text into a file 
+file = open('Raw_Data.txt', 'w', encoding='utf-8')
+file.write(rich_text)
+
+# Close the file
+file.close()
