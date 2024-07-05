@@ -69,8 +69,8 @@ def Process_From_Raw_Data(inputfilename):
     #deletes tags given at the start
     df = Delete_Tags(df,tags)
 
-    df.to_csv('Content2024.csv', index=False)
+    df.to_csv('Content2023.csv', index=False)
     
 
 
-Process_From_Raw_Data('Raw_Data.txt')
+Process_From_Raw_Data('Raw_Data_2023.txt')
