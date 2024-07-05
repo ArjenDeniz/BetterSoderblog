@@ -42,6 +42,13 @@ def Check_Quotes(df):
     df["Quoted"] = df["Content"].apply(lambda x: has_quoted_string(x))
     return df
 
+def Delete_Tags(df,tags):
+    for tag in tags:
+        df["Content"] = df["Content"].str.replace(tag, "")
+    return df
+
+
+
 #main function
 def Process_From_Raw_Data(inputfilename):
     tags = ['<strong>', '<em>', '*']
@@ -56,7 +63,11 @@ def Process_From_Raw_Data(inputfilename):
 
     #this is seperate because it uses isupper()
     df["AllCaps"] = df["Content"].apply(lambda x: 1 if x.isupper() else 0)
+    #checks for quotation marks
     df = Check_Quotes(df)
+
+    #deletes tags given at the start
+    df = Delete_Tags(df,tags)
 
     df.to_csv('Content2024.csv', index=False)
     
