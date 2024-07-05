@@ -20,4 +20,8 @@ content = re.sub(regex_dates, r'\g<0>,', content)
 regex_tags = r'<(em|strong)>'
 content = re.sub(regex_tags, r'\g<0>,', content)
 
-print(content)
+#some cases have tags some dont to make the rows match up we will add an extra comma with
+
+file = open('Content.txt', 'w', encoding='utf-8')
+file.write(content)
+
