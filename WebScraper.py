@@ -10,8 +10,8 @@ def Extract_Text_With_Tags(soup):
             tag.unwrap()  
     return str(soup)
 
-def Link_To_Text( link,year):
-    driver.get(link)
+def Link_To_Text(year):
+    driver.get('https://extension765.com/blogs/soderblog/seen-read-' + str(year))
     #takes the html from the post_main class
     main_post = driver.find_element(By.ID,"post_main")
     html_version =  main_post.get_attribute('outerHTML')
@@ -30,5 +30,5 @@ def Link_To_Text( link,year):
 driver = webdriver.Firefox()
 driver.implicitly_wait(2)
 
-#single function get text from any year with link and year
-Link_To_Text('https://extension765.com/blogs/soderblog/seen-read-2023',2023)
+#single function get text from any year with year
+Link_To_Text(2017)
