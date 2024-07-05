@@ -22,19 +22,44 @@ def Split_Titles(df):
     df = df.assign(Content = df.Content.str.split('</em>')).explode("Content")
     df = df.assign(Content = df.Content.str.split('</strong>')).explode("Content")
     df = df.assign(Content = df.Content.str.split(',')).explode("Content")
+    df = df[df["Content"] != ""]
     return df
 
+#creates the columns where tags are what it is looking for and cols are the column names
+def Type_Identifier(tags,cols ,df):
+    if(len(cols) != len(tags)):
+        print('your tags to check and corresponding column names dont match up')
+        return 0
+    length = len(cols)
+    for i in range(0,length):
+        df[cols[i]] = df["Content"].apply(lambda x: 1 if tags[i] in x else 0)
+    return df
 
-#from here we need spesific functions that automate the .apply lambda functions
+def Check_Quotes(df):
+    def has_quoted_string(text):
+        pattern = r'\u201c([^\u201d]*)\u201d'
+        return 1 if re.search(pattern, str(text)) else 0
+    df["Quoted"] = df["Content"].apply(lambda x: has_quoted_string(x))
+    return df
 
 #main function
 def Process_From_Raw_Data(inputfilename):
+    tags = ['<strong>', '<em>', '*']
+    cols = ['Bold', 'Italic', 'Short']
     with open(inputfilename, 'r', encoding='utf-8') as file:
         content = file.read()
+    
     df = Make_Df_From_Txt(content)
     df = Remove_Extra_From_DF(df)
     df = Split_Titles(df)
-    return df
+    df = Type_Identifier(tags, cols, df)
+
+    #this is seperate because it uses isupper()
+    df["AllCaps"] = df["Content"].apply(lambda x: 1 if x.isupper() else 0)
+    df = Check_Quotes(df)
+
+    df.to_csv('Content2024.csv', index=False)
+    
 
 
-print(Process_From_Raw_Data('Raw_Data.txt'))
+Process_From_Raw_Data('Raw_Data.txt')
