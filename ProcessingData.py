@@ -5,7 +5,7 @@ import pandas as pd
 #drops every row that does not start with a date of the form xx/xx
 
 def Droprows(df):
-    regex = r'(\d{2}/\d{2})'
+    regex = r'^(\d{2}/\d{2}|\s\d{2}/\d{2})'
     mask = df.astype(str).apply(lambda row: row.str.match(regex).any(), axis=1)
     return df[mask].reset_index(drop=True)
 
