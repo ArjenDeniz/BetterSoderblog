@@ -1,5 +1,7 @@
 import re
 import pandas as pd
+import os
+
 
 #drops the first few irrelevant rows
 #drops every row that does not start with a date of the form xx/xx
@@ -64,7 +66,7 @@ def Delete_Tags(df,tags):
 def Process_From_Raw_Data(year):
     tags = ['<strong>', '<em>', '*']
     cols = ['Bold', 'Italic', 'Short']
-    with open('Raw_Data_'+str(year)+'.txt', 'r', encoding='utf-8') as file:
+    with open('Raw_Data_'+ str(year) +'.txt', 'r', encoding='utf-8') as file:
         content = file.read()
     
     df = Make_Df_From_Txt(content)
@@ -80,9 +82,17 @@ def Process_From_Raw_Data(year):
     #deletes tags given at the start
     df = Delete_Tags(df,tags)
 
-    df.to_csv('Content'+str(year)+'.csv', index=False)
+    #adds a year column
+    df["Year"] = year
+
+    #checks if a csv file already exists if it does just adds the current df to it otherwise creates it
+    if os.path.exists('Content_full.csv'):
+        existing_df = pd.read_csv('Content_full.csv')
+        combined_df = pd.concat([existing_df, df], ignore_index=True)
+        combined_df.drop_duplicates(inplace=True)
+        combined_df.to_csv('Content_full.csv', index=False)
+    else:
+        df.to_csv('Content_full.csv', index=False)
     
-
-
-Process_From_Raw_Data(2023)
-Process_From_Raw_Data(2017)
+    os.remove('Raw_Data_'+ str(year) +'.txt')
+    file.close()
