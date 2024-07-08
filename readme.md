@@ -27,6 +27,7 @@ Soderblog Reimagined invites both long-time followers and new readers to experie
 - use TMDB API for both series and movies, store _director_, _year_, _country of origin_, _description_, _screenwriter_, _genre(s)_
 - use TMDB API for images, store base_url, file_path
 - use Google's Books API for books and plays, store _writer_, _description_, _selfLink_
+- years should get merged into a single csv
 
 ### Backend
 
