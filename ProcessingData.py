@@ -1,19 +1,30 @@
 import re
-import csv #*********************what does this do?
 import pandas as pd
+
+#drops the first few irrelevant rows
+#drops every row that does not start with a date of the form xx/xx
+
+def Droprows(df):
+    regex = r'(\d{2}/\d{2})'
+    return df[df.astype(str).apply(lambda row: row.str.contains(regex).any(), axis=1)].reset_index(drop = True)
+
+
 
 #takes text file and makes it a dataframe
 def Make_Df_From_Txt(text):
     df = pd.DataFrame([text],columns=['Content'])
     split_content= df.iloc[0,0].split('\n')
     new_df = pd.DataFrame(split_content, columns=['Content'])
-    new_df = new_df.iloc[10:].reset_index(drop=True) #***********10 must be an input
+    new_df = Droprows(new_df) 
     return new_df
 
 #removes the irrelevant parts of the text file and removes the unneeded parts of the string
-def Remove_Extra_From_DF(df): #*********************write what does each step mean
-    df["Dates"] = df["Content"].str.extract(r'(\d{2}/\d{2})') 
+def Remove_Extra_From_DF(df): 
+    #extracts the dates
+    df["Dates"] = df["Content"].str.extract(r'(\d{2}/\d{2})')
+    #removes the first 5 elements (corresponding to dates) 
     df["Content"] = df["Content"].apply(lambda x: x[5:])
+    #removes unnecessary tags like </em> or data-mce-fragment
     df["Content"] = df["Content"].str.replace(r' data-mce-fragment="1"', "")
     df["Content"] = df["Content"].str.replace(r'(</em>,)[^,]*', r'\1', regex=True)
     return df
@@ -35,7 +46,8 @@ def Type_Identifier(tags,cols ,df):
         df[cols[i]] = df["Content"].apply(lambda x: 1 if tags[i] in x else 0)
     return df
 
-def Check_Quotes(df): #*********************write what it does
+#checks if there are quotes in the string and inputs 1 if there are quotes
+def Check_Quotes(df):
     def has_quoted_string(text):
         pattern = r'\u201c([^\u201d]*)\u201d'
         return 1 if re.search(pattern, str(text)) else 0
