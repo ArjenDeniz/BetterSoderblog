@@ -6,9 +6,8 @@ import pandas as pd
 
 def Droprows(df):
     regex = r'(\d{2}/\d{2})'
-    return df[df.astype(str).apply(lambda row: row.str.contains(regex).any(), axis=1)].reset_index(drop = True)
-
-
+    mask = df.astype(str).apply(lambda row: row.str.match(regex).any(), axis=1)
+    return df[mask].reset_index(drop=True)
 
 #takes text file and makes it a dataframe
 def Make_Df_From_Txt(text):
