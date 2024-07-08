@@ -1,5 +1,5 @@
 import re
-import csv
+import csv #*********************what does this do?
 import pandas as pd
 
 #takes text file and makes it a dataframe
@@ -7,12 +7,12 @@ def Make_Df_From_Txt(text):
     df = pd.DataFrame([text],columns=['Content'])
     split_content= df.iloc[0,0].split('\n')
     new_df = pd.DataFrame(split_content, columns=['Content'])
-    new_df = new_df.iloc[10:].reset_index(drop=True)
+    new_df = new_df.iloc[10:].reset_index(drop=True) #***********10 must be an input
     return new_df
 
 #removes the irrelevant parts of the text file and removes the unneeded parts of the string
-def Remove_Extra_From_DF(df):
-    df["Dates"] = df["Content"].str.extract(r'(\d{2}/\d{2})')
+def Remove_Extra_From_DF(df): #*********************write what does each step mean
+    df["Dates"] = df["Content"].str.extract(r'(\d{2}/\d{2})') 
     df["Content"] = df["Content"].apply(lambda x: x[5:])
     df["Content"] = df["Content"].str.replace(r' data-mce-fragment="1"', "")
     df["Content"] = df["Content"].str.replace(r'(</em>,)[^,]*', r'\1', regex=True)
@@ -35,7 +35,7 @@ def Type_Identifier(tags,cols ,df):
         df[cols[i]] = df["Content"].apply(lambda x: 1 if tags[i] in x else 0)
     return df
 
-def Check_Quotes(df):
+def Check_Quotes(df): #*********************write what it does
     def has_quoted_string(text):
         pattern = r'\u201c([^\u201d]*)\u201d'
         return 1 if re.search(pattern, str(text)) else 0
