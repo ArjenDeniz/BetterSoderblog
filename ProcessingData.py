@@ -50,10 +50,10 @@ def Delete_Tags(df,tags):
 
 
 #main function
-def Process_From_Raw_Data(inputfilename):
+def Process_From_Raw_Data(year):
     tags = ['<strong>', '<em>', '*']
     cols = ['Bold', 'Italic', 'Short']
-    with open(inputfilename, 'r', encoding='utf-8') as file:
+    with open('Raw_Data_' + str(year) + '.txt', 'r', encoding='utf-8') as file:
         content = file.read()
     
     df = Make_Df_From_Txt(content)
@@ -70,7 +70,6 @@ def Process_From_Raw_Data(inputfilename):
     df = Delete_Tags(df,tags)
 
     df.to_csv('Content2023.csv', index=False)
-    
 
 
-Process_From_Raw_Data('Raw_Data_2023.txt')
+Process_From_Raw_Data(2023)
