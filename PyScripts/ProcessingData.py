@@ -99,8 +99,4 @@ def Process_From_Raw_Data(year):
         combined_df.to_csv('Content_full.csv', index=False)
     else:
         df.to_csv('Content_full.csv', index=False)
-
-    
-    #removes the text data to reduce cluttering (optional)
-    #os.remove('Raw_Data_'+ str(year) +'.txt')
     file.close()

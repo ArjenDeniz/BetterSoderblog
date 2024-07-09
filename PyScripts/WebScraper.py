@@ -33,5 +33,4 @@ def Link_To_Text(year):
     driver.close()
     # Close the file
     file.close()
-    #loads the driver and waits for it to load
 
