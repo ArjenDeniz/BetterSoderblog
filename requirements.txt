@@ -2,3 +2,4 @@ pandas
 re
 selenium
 bs4
+os
