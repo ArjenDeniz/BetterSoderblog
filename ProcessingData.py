@@ -24,10 +24,10 @@ def Remove_Extra_From_DF(df):
     #extracts the dates
     df["Dates"] = df["Content"].str.extract(r'(\d{2}/\d{2})')
     #removes the first 5 elements (corresponding to dates) 
-    df["Content"] = df["Content"].apply(lambda x: x[5:])
-    #removes unnecessary tags like </em> or data-mce-fragment
     df["Content"] = df["Content"].str.replace(r' data-mce-fragment="1"', "")
     df["Content"] = df["Content"].str.replace(r'(</em>,)[^,]*', r'\1', regex=True)
+    #removes the extra /xx format year from old data
+    df["Content"] = df["Content"].str.replace(r'/d{2}', regex = True)
     return df
 
 def Split_Titles(df):
@@ -70,6 +70,7 @@ def Process_From_Raw_Data(year):
         content = file.read()
     
     df = Make_Df_From_Txt(content)
+    df = Droprows(df)
     df = Remove_Extra_From_DF(df)
     df = Split_Titles(df)
     df = Type_Identifier(tags, cols, df)
@@ -94,5 +95,6 @@ def Process_From_Raw_Data(year):
     else:
         df.to_csv('Content_full.csv', index=False)
     
-    os.remove('Raw_Data_'+ str(year) +'.txt')
+    #removes the text data to reduce cluttering (optional)
+    #os.remove('Raw_Data_'+ str(year) +'.txt')
     file.close()
