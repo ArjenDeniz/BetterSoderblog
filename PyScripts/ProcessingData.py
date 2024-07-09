@@ -67,7 +67,11 @@ def Delete_Tags(df,tags):
 def Process_From_Raw_Data(year):
     tags = ['<strong>', '<em>', '*']
     cols = ['Bold', 'Italic', 'Short']
-    with open('Raw_Data_'+ str(year) +'.txt', 'r', encoding='utf-8') as file:
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    filename = 'TextFiles'
+    file_path = os.path.join(current_dir,filename ,'Raw_Data_'+ str(year) +'.txt')
+    with open(file_path,'r', encoding='utf-8' ) as file:
         content = file.read()
     
     df = Make_Df_From_Txt(content)
@@ -95,6 +99,7 @@ def Process_From_Raw_Data(year):
         combined_df.to_csv('Content_full.csv', index=False)
     else:
         df.to_csv('Content_full.csv', index=False)
+
     
     #removes the text data to reduce cluttering (optional)
     #os.remove('Raw_Data_'+ str(year) +'.txt')

@@ -2,9 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
-
-driver = webdriver.Firefox()
-driver.implicitly_wait(2)
+import os
 
 #keeps the bold and italics tags for further use
 def Extract_Text_With_Tags(soup):
@@ -23,9 +21,14 @@ def Link_To_Text(year):
     soup = BeautifulSoup(html_version, 'html.parser')  
     rich_text = Extract_Text_With_Tags(soup)
 
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    folder_name = 'TextFiles'
+    file_path = os.path.join(current_dir,folder_name ,'Raw_Data_'+ str(year) +'.txt')
     # Dumps the text into a file 
-    file = open('Raw_Data_'+ str(year) + '.txt', 'w', encoding='utf-8')
-    file.write(rich_text)
+
+    with open(file_path, 'w', encoding= 'utf-8') as file:
+        file.write(rich_text)
     #exits the driver
     driver.close()
     # Close the file
