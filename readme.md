@@ -1,6 +1,6 @@
 # Soderblog Reimagined
 
-Soderblog Reimagined is a modern revival of the iconic ("Soderberg's Seen, Read")[https://extension765.com/blogs/soderblog/seen-read-2023] yearly blog, bringing the director's unique choices to people. This project aims to honor the original blog's legacy while introducing fresh, innovative features to enhance the user experience.
+Soderblog Reimagined is a modern revival of the iconic ["Soderberg's Seen, Read"](https://extension765.com/blogs/soderblog/seen-read-2023) yearly blog, bringing the director's unique choices to people. This project aims to honor the original blog's legacy while introducing fresh, innovative features to enhance the user experience.
 
 ## Vision
 
@@ -22,19 +22,22 @@ Soderblog Reimagined invites both long-time followers and new readers to experie
 
 ### Data
 
-- Scrapping all data from 2009 to 2023
+- ~~Scrapping all data from 2009 to 2023~~
 - Cleaning, fixing entries
 - use TMDB API for both series and movies, store _director_, _year_, _country of origin_, _description_, _screenwriter_, _genre(s)_
 - use TMDB API for images, store base_url, file_path
 - use Google's Books API for books and plays, store _writer_, _description_, _selfLink_
-
-### Backend
-
-- to be written
+- turn final csv to json file
 
 ### Front End
 
 - start with creating a vue.js application
-- find js data viz library to use
--
+- add json file to public folder
+- ~~find js data viz library to use(echarts)~~
+- work on requests()
+- pagination
+- lazy loading
+- design dashboard
+- add data visuals
 - TMDB, Google Books reference
+- add google analytics(page by page)
