@@ -26,8 +26,9 @@ def Remove_Extra_From_DF(df):
     #removes the first 5 elements (corresponding to dates) 
     df["Content"] = df["Content"].str.replace(r' data-mce-fragment="1"', "")
     df["Content"] = df["Content"].str.replace(r'(</em>,)[^,]*', r'\1', regex=True)
+    df["Content"] = df["Content"].str.replace(r'(\d{2}/\d{2})', '', regex = True)
     #removes the extra /xx format year from old data
-    df["Content"] = df["Content"].str.replace(r'/d{2}', regex = True)
+    df["Content"] = df["Content"].str.replace(r'/d{2}', '',regex = True)
     return df
 
 def Split_Titles(df):
