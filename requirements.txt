@@ -3,3 +3,4 @@ re
 selenium
 bs4
 os
+tmdbsimple
